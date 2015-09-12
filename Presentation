@@ -1,0 +1,453 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+\mode<presentation> {
+
+% The Beamer class comes with a number of default slide themes
+% which change the colors and layouts of slides. Below this is a list
+% of all the themes, uncomment each in turn to see what they look like.
+
+%\usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme[compress]{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+%\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+% As well as themes, the Beamer class has a number of color themes
+% for any slide theme. Uncomment each of these in turn to see how it
+% changes the colors of your current slide theme.
+
+%\usecolortheme{albatross}
+%\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+%\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+
+%\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title[Our Presentation]{Solving the Linearised Shallow-water Equations} % The short title appears at the bottom of every slide, the full title is only on the title page
+
+\author{Group D} % Your name
+\institute[MPECDT KOC 2015] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+{
+MPECDT Kick Off Camp 2015 \\ % Your institution for the title page
+\medskip
+%\textit{tls111@ic.ac.uk} % Your email address
+}
+\date{\today} % Date, can be changed to a custom date
+
+\begin{document}
+
+\begin{frame}
+\titlepage % Print the title page as the first slide
+\end{frame}
+
+\begin{frame}
+\frametitle{Overview} % Table of contents slide, comment this block out to remove it
+\tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+%------------------------------------------------
+\section{Tas}
+
+%------------------------------------------------
+
+
+\begin{frame}\frametitle{The Riemann Zeta Function}
+For $\Re s > 1$ the Riemann zeta function is given by
+$$\zeta(s) := \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p} \frac{1}{(1 - p^{-s})}.$$
+\begin{block}{The Functional Equation (Riemann, 1859)}
+$$ \pi^{\frac{1}{2}s}\Gamma\left(\frac{1}{2}s\right)\zeta(s) = \pi^{-\frac{1}{2}(1-s)}\Gamma\left(\frac{1}{2}(1-s)\right)\zeta(1-s).$$
+\end{block}
+\end{frame}
+
+
+\begin{frame}
+
+picture of zeta
+\end{frame}
+
+\begin{frame}
+\frametitle{The Riemann Hypothesis}
+
+Hardy proved in 
+\\
+\begin{block}{The Riemann Hypothesis}
+The only non-trivial zeros of $\zeta$ lie on the \emph{critical line} $$ \mathfrak{Re}(s) = \frac{1}{2}.$$
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{The Riemann--von Mangoldt Formula}
+
+
+\begin{theorem}[The Riemann von Mangoldt Formula]
+Let $N(T)$ denote the number of zeros of $\zeta(\sigma+\text{i}t)$ such that $0 < t \leq T$. Then,
+$$N(T) = \frac{T}{2\pi}log\frac{T}{2\pi} - \frac{T}{2\pi} + O(log T).$$
+\end{theorem}
+It follows immediately that $\zeta(s)$ has infinitely many zeros in the critical strip. Hardy later proved that there are infinitely many zeros on the \emph{critical line}.
+\end{frame}
+
+\begin{frame}
+
+From here on, we assume the Riemann Hypothesis, and refer to $\gamma$ such that $0=1/2 + \text{i}\gamma$ as `zeros' of $\zeta$. Assuming RH is equivalent to assuming $\gamma \in \mathbb{R}$.
+
+Doing this it makes sense to talk about ordering the zeros $... \gamma_{-1} \leq 0 \leq \gamma_1 \leq \gamma_2 ... $. 
+
+Then, in the limit $T \to \infty$, $$N(T) = \#\{j: 0 \leq \gamma_j \leq T\} \sim \frac{1}{2\pi} T log T$$
+
+Note that this density increases logarithmically (and compare with the density of the primes!) We want to scale the zeros so their average density remains constant. 
+
+%fluctuation around average is what is of interest
+
+
+\end{frame}
+\begin{frame}
+The easiest constant is one, so we want our zeros to have, on average, a consecutive distance of one.
+\begin{block}{Definition}
+Define the normalised zeros of $\zeta$ by $\omega_j := \gamma_j \frac{1}{2\pi} log \frac{\gamma_j}{2\pi}$
+\end{block}
+
+Then $lim_{N \to \infty} \frac{1}{N} \#\{\omega_n \in [0, N]\} = 1$. It is the statistics of these points that Montgomery [Mon] was studying when the connection with random matrices was established.
+\end{frame}
+
+\subsection{Pair Correlation}
+
+\begin{frame}
+\frametitle{Montgomery's Pair Correlation Conjecture}
+\begin{block}{Definition}
+The Pair Correlation Statistic of a set $\{x_1, x_2, ...\}$ over an interval $[\alpha, \beta]$ is
+$$ \lim_{N \to \infty} \frac{1}{N} \sum_{\substack{0 < i \neq j \leq N \\ \alpha \leq x_i - x_j \leq \beta}} 1$$
+Or more generally, for an appropriate test function $f$,
+$$ \lim_{N \to \infty} \frac{1}{N} \sum_{\substack{1 \leq j,k \leq N \\ j \neq k}} f(x_j - x_k)$$
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Conjecture (Montgomery, 1973)}
+For an appropriate test function f,
+$$ \lim_{N \to \infty} \frac{1}{N} \sum_{\substack{1 \leq j,k \leq N \\ j \neq k}} f(\omega_j - \omega_k) =  \int_{-\infty}^\infty f(x) \left( 1 - \left(\frac{sin \pi x}{\pi x}\right)^2\right) dx$$
+
+\end{block}
+
+%%If the zeros were to follow a Poisson process the LHS would converge to simply $\int_{-\infty}^{\infty} f(x) dx$ as $N \to \infty$, instead there must be some `force' keeping the %$\gamma_j$'s apart.
+
+In his 1973 paper [Mon] Montgomery proved this conjecture for $f(x)$ where $\hat{f}(\tau) = \int_{-\infty}^{\infty} f(x)e^{2\pi i x\tau}dx$ has support in (-1,1).
+
+%%Not only that, but in this function has small ``peaks'' at integer values -- Riemann zeta zeros like to be arranged like a crystal, about one unit apart.
+
+\end{frame}
+
+\begin{frame}
+%\begin{figure}
+%\includegraphics[width=0.7\linewidth]{paircorrelation1.png}
+%\caption{Montogomery's Pair Correlation Function [1]}
+%\end{figure}
+\end{frame}
+
+
+\section{Jemima}
+
+%------------------------------------------------
+\subsection{Origins}
+
+\begin{frame}
+\begin{block}{Another Question}
+How can we predict the energy levels inside a heavy atomic nucleus?
+\end{block}
+
+Think of another difficult physical problem: molecules in a box. What is the pressure on the walls of the box?
+
+\begin{itemize}
+\item We need to know how many particles are striking the wall in $dx$ as $dx \to 0$. 
+\item In the box there is at least a mole ($6 x 10^{23}$ , give or take) of molecules, which is beyond computational power.
+\item Given a configuration of the molecules we can find the pressure on the wall, so compute this and then...
+\item ..average over all possible arrangements. The Law of Large Numbers gives that a given, random, situation will then be well modelled by the system average.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{block}{}
+The following equation, from quantum mechanics, is what governs the energy in our heavy nucleus:
+$$ H \Psi_n = E_n \Psi_n $$
+where H is the Hamiltonian, $\Psi_n$ are the eigenfunctions and $E_n$ are the energy levels.
+\end{block}
+\end{frame}
+\subsection{Random Matrix Preliminaries}
+
+\begin{frame}
+\begin{block}{Definition}
+A Random Matrix is a matrix whose entries are random variables.
+\end{block}
+
+\begin{block}{Definition}
+The Gaussian Unitary Ensemble represents quantum Hamiltonians with no time-reversal symmetry. We require:
+\begin{itemize}
+\item Under any unitary transformation $H' = U^{-1} H U$, $P(H')dH' = P(H) dH$
+\item The various elements of $H_{kj}$, $k < j$ are statistically independent.
+\end{itemize}
+The probability density turns out to be [Meh]: $P(H) = exp\{-a Tr(H^2) + b Tr(H) + c\}$, $a \in \mathbb{R_{+}}, b,c \in \mathbb{R}$.
+\end{block}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\begin{block}{Definition}
+The Circular Unitary Ensemble is defined over the space of all $NxN$ unitary matrices weighted by: $$P(S)dS = \frac{\mu(dS)}{V}$$
+\end{block}
+
+\begin{block}{Theorem}
+The CUE is uniquely defined on $U(N)$ by the property of being invariant under every automorphism $S \to USV$, for $U$, $V$ any two unitary matrices.
+\end{block}
+
+\end{frame}
+
+\subsection{Eigenvalues}
+
+\begin{frame}
+\frametitle{Eigenvalues}
+Since the goal of random matrix theory is to predict the eigenstatistics of physical phenomena it is natural to want a joint PDF for the eigenvalues of our CUE matrices.
+
+$P(x_1,...,x_N)dx_1...dx_N$ is the probability of choosing a matrix with eigenvalues in $[x_i, x_i + dx_i]$ for $i = 1,...,n$.
+
+Once obtained these will allow us to compute averages over the full range of eigenvalues.
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{GUE}
+For the GUE we obtain the JPDF: $$P(x_1,...,x_N) = C exp\left(-1/2\beta \sum_{i=1}^{N} x_j^2\right) \prod_{1 \leq j < k \leq N}|x_i - x_k|^2$$
+\end{block}
+
+\begin{block}{CUE}
+For the CUE: $$P(\theta_1,...,\theta_N) = C' \prod_{1 \leq j < k \leq N}|e^{i\theta_j} - e^{i\theta_k}|^2$$
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+Now to the pair correlation function...
+$$R_{2}^{U(N)} = \frac{N!}{(N-2)!} \int_0^{2\pi}...\int_0^{2\pi} P(\theta_1,...,\theta_N)d\theta_3...d\theta_N$$
+We'll assume, for brevity (see [Meh] for a full proof) that $$\prod_{1 \leq j < k \leq N}|e^{i\theta_j} - e^{i\theta_k}|^2 = (2\pi)^N \underset{NxN}{det} (S_N(\theta_k - \theta_j))$$ where $$S_N(\theta) = \frac{sin\left(\frac{N\theta}{2}\right)}{2\pi sin\frac{\theta}{2}}$$
+\end{frame}
+
+\begin{frame}
+\begin{block}{Theorem}
+The pair correlation of CUE eigenangles is given by
+$$R_2^{U(N)}(\theta_1,...,\theta_N) = \underset{2x2}{det}(S_N(\theta_k - \theta_j))$$
+\end{block}
+Here, $S_N(\theta_k - \theta_j)$ is given by
+$$
+\left( \begin{array}{cc}
+N & \frac{sin\left(\frac{N(\theta_1 - \theta_2)}{2}\right)}{sin\left(\frac{\theta_1 - \theta_2}{2}\right)}\\
+\frac{sin\left(\frac{N(\theta_2 - \theta_1)}{2}\right)}{sin\left(\frac{\theta_2 - \theta_1}{2}\right)} & N \\ \end{array} \right)
+$$
+\end{frame}
+
+\begin{frame}
+The main ingredient here is Gaudin's Lemma:
+
+\begin{block}{Gaudin's Lemma}
+Suppose $f(x,y)$ is integrable on J and $$\int_J f(x,y)f(y,z) dy = K f(x,z)$$ $\forall x$ and $\int_J f(y,y) dy = D$. Then,
+$$\int_J \underset{nxn}{det} (f(x_j, x_k))dx_n = (D - (n-1)K)\underset{n-1xn-1}{det}(f(x_j,x_k)$$
+\end{block}
+\end{frame}
+
+\begin{frame}
+We apply Gaudin's Lemma with $f = S_N(\theta_k - \theta_j)$ and $J = [0, 2\pi)$. Now since,
+
+$$S_N(\theta_k - \theta_j) = \frac{1}{2\pi}e^{i\frac{N-1}{2}(\theta_j - \theta_k)} \sum_{l-1}^{N-1}e^{il(\theta_k - \theta_j)}$$
+
+we obtain,
+
+$$\int_0^{2\pi} S_N(\theta_k - \theta)S_N(\theta - \theta_j) d\theta =$$ $$ \frac{1}{(2\pi)^2}e^{i\frac{N-1}{2}(\theta_j - \theta_k)} \sum_{l, m= 1}^{N-1} e^{il(\theta_k - \theta_j)} \int_0^{2\pi} e^{i(m-l)\theta} d\theta =$$
+
+$$\frac{1}{(2\pi)}e^{i\frac{N-1}{2}(\theta_j - \theta_k)} \sum_{l= 1}^{N-1} e^{il(\theta_k - \theta_j)}= S_N(\theta_k - \theta_j)$$
+\end{frame}
+
+\begin{frame}
+Moreover, $ \int_0^{2\pi}S_N(\theta - \theta) d\theta = S_N(0) \int_0^{2\pi} d\theta = N$. So we can apply Gaudin's Lemma to $P(\theta_1,...,\theta_N) = C (2\pi)^N \underset{NxN}{det} S_N(\theta_k - \theta_j)$:
+
+$$\int_0^{2\pi} P(\theta_1,...,\theta_N)d\theta_N = C (2\pi)^N \int_0^{2\pi} \underset{NxN}{det} S_N(\theta_k - \theta_j)$$
+$$= C(2\pi)^N(N - (N-1))\underset{N-1xN-1}{det} S_N(\theta_k - \theta_j)$$
+$$= C(2\pi)^N\underset{N-1xN-1}{det} S_N(\theta_k - \theta_j)$$
+\end{frame}
+
+\begin{frame}
+Iterating we eventually get:
+$$\int_0^{2\pi}... \int_0^{2\pi} P(\theta_1,...,\theta_N)d\theta_3...d\theta_N = C (2\pi)^N(N-2)! \underset{2x2}{det}(S_N(\theta_k - \theta_j))$$ 
+
+Integrating over all $\theta$ we find that $C = 1/(2\pi)^NN!$, giving that: $$R_2^{U(N)}(\theta_1,...,\theta_N) = \underset{2x2}{det}(S_N(\theta_k - \theta_j))$$
+\end{frame}
+
+\begin{frame}
+Thus,
+
+\begin{block}{}
+The two point correlation function for CUE eigenvalues is, 
+ $$R_2^{U(N)}(\theta_1,\theta_2) = \underset{2x2}{det}(S_N(\theta_k - \theta_j)) $$ $$= \frac{N^2}{(2\pi)^2}\left(1 - \left(\frac{sin\left(\frac{N(\theta_2 - \theta_1)}{2}\right)}{N sin\left(\frac{\theta_2 - \theta_1}{2}\right)}\right)^2\right)$$
+\end{block}
+\end{frame}
+
+\begin{frame}
+Now we take N to infinity. We can write $x = N(\theta_2 - \theta_1)/2\pi$, giving:
+$$\frac{sin\left(\frac{N(\theta_2 - \theta_1)}{2}\right)}{N sin\left(\frac{\theta_2 - \theta_1}{2}\right)} = \frac{sin(\pi x)}{N sin\left(\frac{\pi r }{N}\right)}$$
+$$= \frac{sin(\pi r)}{\pi r - (\pi r)^3/3!N^2 + ...} = \frac{sin( \pi r)}{\pi r} \left( 1 + (\pi r)^2/3!N^2 + ... \right)$$
+So,
+$$ \left(\frac{2\pi}{N}\right)^2 R_2^{U(N)}\left(\frac{2\pi r}{N}\right) = 1 - \left(\frac{sin(\pi r)}{\pi r}\right)^2 + O (1/N^2)$$
+Taking the limit, then:
+$$R_2(r) = 1 - \left(\frac{sin(\pi r)}{\pi r}\right)^2$$
+\end{frame}
+
+
+
+%------------------------------------------------
+
+
+%------------------------------------------------
+
+\section{Matt}
+
+
+\begin{frame}
+\frametitle{The Keating-Snaith Conjecture }
+A very natural question at this juncture is: so what? 
+\begin{theorem}[The Selberg Central Limit Theorem]
+For a rectangle $B \in \mathbb{C}$,
+$$lim_{T \to \infty}\frac{1}{T}\left\{t: T \leq t \leq 2T, \frac{log \zeta(1/2 + i\gamma)}{\sqrt{1/2 log log T}} \in B\right\} $$
+$$ = \frac{1}{2\pi} \iint_B e^{-(x^2+y^2)/2}dxdy$$
+\end{theorem}
+\end{frame}
+
+
+\begin{frame}
+Following Keating \& Snaith [KS] define
+$$ \Lambda_A(s) = det(I - \overline{A}s) = \prod_{n=1}^N (s - \theta_n) $$
+\begin{theorem}[Keating \& Snaith, 2000]
+For rectangles $B \in \mathbb{C}$,
+$$
+\lim_{N \to \infty} \mathbb{P} \left( \frac{log \Lambda_A(\theta)}{\sqrt{1/2 log N}} \in B \right) = \frac{1}{2\pi} \iint_B e^{-(x^2+y^2)/2}dxdy
+$$
+\end{theorem}
+\end{frame}
+
+
+
+%------------------------------------------------
+
+\subsection{References}
+
+\begin{frame}
+\frametitle{Figures}
+\footnotesize{
+\begin{thebibliography}{99} % Beamer does not support BibTeX so references must be inserted manually as below
+\bibitem[ED]{p1} Figure 1: Montgomery's Pair Correlation Function
+\newblock \url{https://www.dartmouth.edu/~chance/chance_news/recent_news/primes_part3/part3.html} retrieved 13/11/2014
+
+\bibitem[ED]{p1} Figure 2: Eigenvalue Distribution of a 3000x3000 GUE matrix
+\newblock \url{http://commons.wikimedia.org/wiki/File:Wigner_Semi_Circle_Law_(3000x3000_Gaussian_Matrix).JPG} retrieved 13/11/2014
+
+\bibitem[ED]{p1} Figure 3: Andrew Odlyzko's verification of Montgomery's PCC
+\newblock \url{http://www.dtc.umn.edu/~odlyzko/doc/zeta.html} retrieved 13/11/2014
+
+
+\bibitem[ED]{p1} Figure 4: Distribution of $\Lambda_A$
+\newblock \url{http://www.maths.bris.ac.uk/~mancs/papers/SnaithRiemann.pdf} retrieved 13/11/2014
+\end{thebibliography}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{References}
+\footnotesize{
+\begin{thebibliography}{99} % Beamer does not support BibTeX so references must be inserted manually as below
+\bibitem[ED]{p1} [Ed] Harold M. Edwards; The Riemann Zeta Function
+\newblock \emph{Dover Publications, 1974}
+
+\bibitem[Mon]{p1} [KS] John Keating, Nina Snaith; Random Matrix Theory \& $\zeta(1/2+it)$
+\newblock \emph{Comm. Math. Phys. 214:57-89, 2000}
+
+\bibitem[Mon]{p1} [Meh] Madan Lal Mehta; Random Matrices
+\newblock \emph{Academic Press, 1991}
+
+\bibitem[Mon]{p1} [Mon] Hugh Montgomery; The pair correlation of the zeta function
+\newblock \emph{Proc. Symp. Pure Math. 24:181--93, 1973}
+
+
+\end{thebibliography}
+}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\Huge{\centerline{The End}}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\end{document} 
